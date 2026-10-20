@@ -1,0 +1,28 @@
+{
+  "name": "arsham-faraz-catalog",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "pdf": "node scripts/pdf.mjs pdf arsham-faraz-catalog.pdf",
+    "qa": "node scripts/pdf.mjs overflow"
+  },
+  "dependencies": {
+    "motion": "^14.4.0",
+    "next": "15.1.5",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.6",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "postcss": "^8.5.2",
+    "puppeteer-core": "^23.10.1",
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5.7.3"
+  }
+}
