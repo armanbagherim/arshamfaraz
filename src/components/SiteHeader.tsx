@@ -43,6 +43,9 @@ export default function SiteHeader() {
               </a>
             ))}
           </nav>
+          <a className="header-cta header-cta--ghost" href="/arsham-faraz-catalog.pdf" download>
+            دانلود PDF
+          </a>
           <a className="header-cta" href="#contact">
             درخواست بازدید
           </a>
@@ -74,6 +77,14 @@ export default function SiteHeader() {
                 {n.label}
               </a>
             ))}
+            <a
+              className="header-cta header-cta--ghost"
+              href="/arsham-faraz-catalog.pdf"
+              download
+              onClick={() => setOpen(false)}
+            >
+              دانلود PDF
+            </a>
             <a className="header-cta" href="#contact" onClick={() => setOpen(false)}>
               درخواست بازدید
             </a>

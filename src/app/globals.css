@@ -151,6 +151,15 @@ button {
   background: var(--ink);
   color: var(--paper);
 }
+.header-cta--ghost {
+  border-color: var(--line-2);
+  color: var(--ink-2);
+}
+.header-cta--ghost:hover {
+  border-color: var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
 .menu-toggle {
   display: none;
   margin-inline-start: auto;
@@ -994,6 +1003,9 @@ main {
   }
   .btn {
     display: none;
+  }
+  .header-cta {
+    display: none !important;
   }
   .palette-grid {
     display: grid;

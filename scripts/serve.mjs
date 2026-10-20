@@ -15,6 +15,7 @@ const MIME = {
   ".woff2": "font/woff2",
   ".woff": "font/woff",
   ".json": "application/json",
+  ".pdf": "application/pdf",
   ".txt": "text/plain",
 };
 

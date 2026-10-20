@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "pdf": "node scripts/pdf.mjs pdf arsham-faraz-catalog.pdf",
+    "pdf": "node scripts/pdf.mjs pdf public/arsham-faraz-catalog.pdf",
     "qa": "node scripts/pdf.mjs overflow"
   },
   "dependencies": {

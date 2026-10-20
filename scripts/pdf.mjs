@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer-core";
 import { spawn } from "node:child_process";
-import { mkdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { statSync, existsSync, copyFileSync } from "node:fs";
+import { join, dirname } from "node:path";
 
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const PORT = 4173;
@@ -31,57 +31,6 @@ async function withPage(fn, viewport = { width: 1440, height: 1000 }) {
 
 const mode = process.argv[2] || "shots";
 
-if (mode === "shots") {
-  const out = process.argv[3] || "/tmp/shots";
-  const w = Number(process.argv[4] || 1440);
-  const h = Number(process.argv[5] || 1000);
-  mkdirSync(out, { recursive: true });
-  await withPage(async (page) => {
-    const sections = await page.$$(".sheet");
-    console.log("sheets:", sections.length, "viewport:", w);
-    for (let i = 0; i < sections.length; i++) {
-      await sections[i].screenshot({ path: join(out, `s${String(i + 1).padStart(2, "0")}.png`) });
-    }
-    await page.screenshot({ path: join(out, "00-fullpage.png"), fullPage: true });
-    console.log("done");
-  }, { width: w, height: h });
-}
-
-if (mode === "printshots") {
-  const out = process.argv[3] || "/tmp/print";
-  mkdirSync(out, { recursive: true });
-  await withPage(async (page) => {
-    await page.emulateMediaType("print");
-    await new Promise((r) => setTimeout(r, 400));
-    const sections = await page.$$(".sheet");
-    for (let i = 0; i < sections.length; i++) {
-      await sections[i].screenshot({ path: join(out, `p${String(i + 1).padStart(2, "0")}.png`) });
-    }
-    console.log("print sheets:", sections.length);
-  }, { width: 794, height: 1123 });
-}
-
-if (mode === "mobile") {
-  const out = process.argv[3] || "/tmp/mob";
-  mkdirSync(out, { recursive: true });
-  await withPage(async (page) => {
-    const shots = [1, 2, 5, 11, 16, 20, 24];
-    for (const n of shots) {
-      const el = (await page.$$(".sheet"))[n - 1];
-      await el.scrollIntoView();
-      await new Promise((r) => setTimeout(r, 350));
-      await el.screenshot({ path: join(out, `m${String(n).padStart(2, "0")}.png`) });
-    }
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await new Promise((r) => setTimeout(r, 300));
-    await page.screenshot({ path: join(out, "m00-top.png") });
-    await page.click(".menu-toggle");
-    await new Promise((r) => setTimeout(r, 500));
-    await page.screenshot({ path: join(out, "m09-menu.png") });
-    console.log("mobile shots done");
-  }, { width: 390, height: 844 });
-}
-
 if (mode === "overflow") {
   await withPage(async (page) => {
     await page.emulateMediaType("print");
@@ -106,8 +55,7 @@ if (mode === "overflow") {
 }
 
 if (mode === "pdf") {
-  const out = process.argv[3] || "dist/arsham-faraz-catalog.pdf";
-  mkdirSync("dist", { recursive: true });
+  const out = process.argv[3] || "public/arsham-faraz-catalog.pdf";
   await withPage(async (page) => {
     await page.emulateMediaType("print");
     await new Promise((r) => setTimeout(r, 500));
@@ -118,6 +66,11 @@ if (mode === "pdf") {
       preferCSSPageSize: true,
       margin: { top: 0, bottom: 0, left: 0, right: 0 },
     });
+    // static export (out/) must ship the same file
+    if (out.startsWith("public/")) {
+      const target = join(process.cwd(), "out", out.slice("public/".length));
+      if (existsSync(dirname(target))) copyFileSync(out, target);
+    }
     console.log("pdf:", out, statSync(out).size, "bytes");
   }, { width: 1200, height: 1000 });
 }

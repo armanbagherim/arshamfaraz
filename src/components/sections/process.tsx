@@ -135,6 +135,14 @@ export function BackCover() {
             طراحی، مونتاژ و فروش آسانسور. برای شروع، بازدید فضا و مشخص‌کردن ظرفیت و
             سیستم کافی است؛ باقی تصمیم‌ها با هم برداشته می‌شوند.
           </p>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: "clamp(18px,3vw,28px)" }}>
+            <a className="btn" href="/arsham-faraz-catalog.pdf" download>
+              دانلود کاتالوگ (PDF)
+            </a>
+            <a className="btn btn--ghost" href="#contact" style={{ borderColor: "var(--gold-2)", color: "var(--gold-2)" }}>
+              درخواست بازدید
+            </a>
+          </div>
           <div style={{ marginTop: "clamp(20px,3vw,32px)", maxWidth: 420 }}>
             <hr className="hr" style={{ background: "var(--line-dark)" }} />
             <div style={{ display: "flex", justifyContent: "space-between", gap: 16, paddingTop: 14 }}>
